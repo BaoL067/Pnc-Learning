@@ -32,7 +32,7 @@ class AStarPlanner:
         def __init__(self, x_idx, y_idx, cost, parent_idx):
             self.x_idx = x_idx  # index of grid map
             self.y_idx = y_idx  # index of grid map
-            self.cost = cost    # g value
+            self.cost = cost # g value
             self.parent_idx = parent_idx
 
         def __lt__(self, other):
@@ -93,7 +93,6 @@ class AStarPlanner:
 
             # TODO: 2. determine whether the current node is the goal, and if so, stop searching
             if current_node.x_idx == goal_node.x_idx and current_node.y_idx == goal_node.y_idx:
-                goal_node.parent_idx = current_node.parent_idx
                 print("Find the goal node")
                 print("Nodes expanded: ", nodes_expanded)
                 break
@@ -129,14 +128,12 @@ class AStarPlanner:
         current_node = goal_node
 
         while True:
-            pre_node = closed_set[current_node.parent_idx]
-            x, y = self.convert_idx_to_coord(pre_node.x_idx, pre_node.y_idx)
+            x, y = self.convert_idx_to_coord(current_node.x_idx, current_node.y_idx)
             path_x.append(x)
             path_y.append(y)
-            if pre_node.parent_idx == -1:
+            if current_node.parent_idx == -1:
                 break
-            current_node = pre_node
-         
+            current_node = closed_set[current_node.parent_idx]
         return path_x, path_y
 
     def cal_heuristic_func(self, cur_node, next_node):
@@ -248,9 +245,10 @@ def main():
 
     a_star = AStarPlanner(obstacle_x_list, obstacle_y_list, grid_res, min_safety_dist)
     path_x, path_y = a_star.search(start_x, start_y, goal_x, goal_y)
-    print("Path length: ", len(path_x))
+
     # plot searched path
     if show_animation:
+        print
         plt.plot(path_x, path_y, ".-", color="royalblue")
         plt.show()
     

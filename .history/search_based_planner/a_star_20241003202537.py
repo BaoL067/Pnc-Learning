@@ -93,7 +93,6 @@ class AStarPlanner:
 
             # TODO: 2. determine whether the current node is the goal, and if so, stop searching
             if current_node.x_idx == goal_node.x_idx and current_node.y_idx == goal_node.y_idx:
-                goal_node.parent_idx = current_node.parent_idx
                 print("Find the goal node")
                 print("Nodes expanded: ", nodes_expanded)
                 break
@@ -133,7 +132,7 @@ class AStarPlanner:
             x, y = self.convert_idx_to_coord(pre_node.x_idx, pre_node.y_idx)
             path_x.append(x)
             path_y.append(y)
-            if pre_node.parent_idx == -1:
+            if current_node.parent_idx == -1:
                 break
             current_node = pre_node
          
@@ -248,9 +247,11 @@ def main():
 
     a_star = AStarPlanner(obstacle_x_list, obstacle_y_list, grid_res, min_safety_dist)
     path_x, path_y = a_star.search(start_x, start_y, goal_x, goal_y)
-    print("Path length: ", len(path_x))
+    # print("path_x: ", path_x)
+    # print("path_y: ", path_y)
     # plot searched path
     if show_animation:
+        print("Path length: ", len(path_x))
         plt.plot(path_x, path_y, ".-", color="royalblue")
         plt.show()
     

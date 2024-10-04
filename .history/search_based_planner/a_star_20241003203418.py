@@ -248,7 +248,6 @@ def main():
 
     a_star = AStarPlanner(obstacle_x_list, obstacle_y_list, grid_res, min_safety_dist)
     path_x, path_y = a_star.search(start_x, start_y, goal_x, goal_y)
-    print("Path length: ", len(path_x))
     # plot searched path
     if show_animation:
         plt.plot(path_x, path_y, ".-", color="royalblue")
